@@ -1,39 +1,15 @@
-const {
-    createPool
-} = require("mysql2");
+import express from 'express'
+import path from 'path'
 
-let ConnectionList = createPool({
-    host: process.env.hstDb,
-    password: process.env.pswrdDb,
-    user: process.env.userDb,
-    database: process.env.dbName,
-    multipleStatements: true,
-    connectionLimit: 30
+//CREATE AN EXPRESS APP
+const app = express()
+const port = +process.env.PORT || 4000
+const router = express.Router()
+
+//MIDDLEWARE
+app.use(router, express.static('./static'))
+
+//ENDPOINT
+router.get('^/$|/eShop', (req, res) => {
+    res.status(200).sendFile(path.resolve('./static/html/index.html'))
 })
-
-ConnectionList.on('connection', (err) => {
-    if (err) throw new Error('couldnt connect to the database, please try again later')
-})
-
-
-export {
-    connection
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-ConnectionList.
