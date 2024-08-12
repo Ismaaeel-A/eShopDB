@@ -3,6 +3,14 @@ import path from 'path'
 import {
     connection as db
 } from './config/index.js'
+import {
+    createToken
+} from './middleware/AuthenticateUser.js'
+import {
+    hash
+} from 'bcrypt'
+import bodyParser from 'body-parser'
+
 // import { urlencoded } from 'body-parser'
 
 //CREATE AN EXPRESS APP
@@ -14,6 +22,8 @@ const router = express.Router()
 app.use(router, express.static('./static'), express.json(), express.urlencoded({
     extended: true
 }))
+
+router.use(bodyParser.json())
 
 //ENDPOINT
 router.get('^/$|/eShop', (req, res) => {
@@ -68,7 +78,69 @@ router.get('/user/:id', (req, res) => {
     }
 })
 
-router.get('*', (req, res ) => {
+router.post('/register', async (req, res) => {
+    try {
+        let data = req.body
+        if (data.pwd) {
+            data.pwd = await hash(data.pwd, 12)
+            // PAYLOAD
+            let user = {
+                emailAdd: data.emailAdd,
+                pwd: data.pwd
+            }
+
+            let strQry = `
+        INSERT INTO Users SET ?;
+        `
+
+            db.query(strQry, [data], (err) => {
+                if (err) {
+                    res.json({
+                        status: res.statusCode,
+                        msg: 'This email is already in use.'
+                    })
+                } else {
+                    const token = createToken(user)
+                    res.json({
+                        token,
+                        msg: 'You are now registered.'
+                    })
+                }
+            })
+        }
+    } catch (e) {
+
+    }
+})
+
+router.patch('/user/:id', async (req, res) => {
+    try {
+        let data = req.body
+        if (data.pwd) {
+            data.pwd = await hash(data.pwd, 12)
+        }
+        const strQry = `
+        UPDATE Users SET ? WHERE UserID = ${req.params.id}
+        `
+
+        db.query(strQry, [data], (err) => {
+            if (err) throw new Error('Unable to update user')
+            res.json({
+                status: res.statusCode,
+                msg: 'User record was updated'
+            })
+        })
+
+    } catch (e) {
+        res.json({
+            status: 400,
+            msg: e.message
+        })
+    }
+})
+
+
+router.get('*', (req, res) => {
     res.json({
         status: 404,
         msg: 'resouce not found'
