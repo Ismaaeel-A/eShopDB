@@ -34,7 +34,7 @@ router.get('^/$|/eShop', (req, res) => {
 router.get('/users', (req, res) => {
     try {
         const strQry = `
-            select firstName, lastName, age, emailAdd
+            select firstName, lastName, age, emailAdd, userRole, profileURL
             from Users;
             `
         db.query(strQry, (err, results) => {
@@ -50,27 +50,24 @@ router.get('/users', (req, res) => {
             status: 404,
             msg: e.message
         })
-        console.log('nope');
     }
 })
 
 router.get('/user/:id', (req, res) => {
     try {
         const strQry = `
-            select userID, firstName, lastName, age, emailAdd
+            select userID, firstName, lastName, age, emailAdd, userRole, profileURL
             from Users WHERE userID = ${req.params.id};
             `
 
         db.query(strQry, (err, result) => {
-            `Unable to fetch user`
-            if (err) throw new Error(err);
+            if (err) throw new Error(`Unable to fetch user`);
             res.json({
                 status: res.statusCode,
                 result: result[0]
             })
         })
 
-        db.query
     } catch (e) {
         res.json({
             status: 404,
@@ -110,7 +107,10 @@ router.post('/register', async (req, res) => {
             })
         }
     } catch (e) {
-
+        res.json({
+            status: 404,
+            msg: e.message
+        })
     }
 })
 
@@ -169,7 +169,7 @@ router.post('/login', (req, res) => {
             pwd
         } = req.body
         const strQry = `
-        SELECT userID, firstName, lastName, age, emailAdd, pwd FROM Users WHERE emailAdd = '${emailAdd}'
+        SELECT userID, firstName, lastName, age, emailAdd, pwd, userRole, profileURL FROM Users WHERE emailAdd = '${emailAdd}'
         `
 
         db.query(strQry, async (err, result) => {
