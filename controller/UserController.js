@@ -1,7 +1,7 @@
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
-import { users } from '../model/Users.js'
+import { users } from '../model/index.js'
 
 const userRouter = express.Router()
 userRouter.use(bodyParser.json())
@@ -18,11 +18,11 @@ userRouter.post('/register', (req, res) => {
     users.registerUser(req, res)
 })
 
-userRouter.patch('/user/:id', (req, res) => {
+userRouter.patch('/:id', (req, res) => {
     users.updateUser(req, res)
 })
 
-userRouter.delete('/user/:id', (req, res) => {
+userRouter.delete('/:id', (req, res) => {
     users.deleteUser(req, res)
 })
 
