@@ -102,7 +102,7 @@ class Users {
             const strQry = `
             UPDATE Users SET ? WHERE UserID = ${req.params.id}
             `
-    
+
             db.query(strQry, [data], (err) => {
                 if (err) throw new Error('Unable to update user')
                 res.json({
@@ -110,7 +110,7 @@ class Users {
                     msg: 'User record was updated'
                 })
             })
-    
+
         } catch (e) {
             res.json({
                 status: 400,
@@ -124,7 +124,7 @@ class Users {
             const strQry = `
             DELETE FROM Users WHERE userID = ${req.params.id}
             `
-    
+
             db.query(strQry, (err) => {
                 if (err) throw new Error('To delete a user, please review your delete query.')
                 res.json({
@@ -132,7 +132,7 @@ class Users {
                     msg: "A user's information has been deleted"
                 })
             })
-    
+
         } catch (e) {
             res.json({
                 status: 404,
@@ -150,23 +150,22 @@ class Users {
             const strQry = `
             SELECT userID, firstName, lastName, age, emailAdd, pwd, userRole, profileURL FROM Users WHERE emailAdd = '${emailAdd}'
             `
-    
+
             db.query(strQry, async (err, result) => {
                 if (err) throw new Error('To login please review your query')
-                if (!result?.length) {
+                if (!result ? .length) {
                     res.json({
                         status: 401,
                         msg: 'You provided a wrong email.'
                     })
                 } else {
-                    const isValidPass = await compare
-                    (pwd, result[0].pwd)
+                    const isValidPass = await compare(pwd, result[0].pwd)
                     if (isValidPass) {
                         const token = createToken({
                             emailAdd,
                             pwd
                         })
-    
+
                         res.json({
                             status: res.statusCode,
                             token,
@@ -189,6 +188,6 @@ class Users {
     }
 }
 
-export{
+export {
     Users
 }
