@@ -153,7 +153,7 @@ class Users {
 
             db.query(strQry, async (err, result) => {
                 if (err) throw new Error('To login please review your query')
-                if (!result ? .length) {
+                if (!result ?.length) {
                     res.json({
                         status: 401,
                         msg: 'You provided a wrong email.'
