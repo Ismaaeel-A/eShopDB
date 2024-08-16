@@ -11,7 +11,9 @@ import {
     hash
 } from 'bcrypt'
 import bodyParser from 'body-parser'
-
+import {
+    productRouter
+} from './controller/ProductController.js'
 // import { urlencoded } from 'body-parser'
 
 //CREATE AN EXPRESS APP
@@ -174,14 +176,13 @@ router.post('/login', (req, res) => {
 
         db.query(strQry, async (err, result) => {
             if (err) throw new Error('To login please review your query')
-            if (!result?.length) {
+            if (!result ? .length) {
                 res.json({
                     status: 401,
                     msg: 'You provided a wrong email.'
                 })
             } else {
-                const isValidPass = await compare
-                (pwd, result[0].pwd)
+                const isValidPass = await compare(pwd, result[0].pwd)
                 if (isValidPass) {
                     const token = createToken({
                         emailAdd,
@@ -216,6 +217,8 @@ router.get('*', (req, res) => {
         msg: 'resouce not found'
     })
 })
+
+app.use('/products', productRouter)
 
 app.listen(port, () => {
     console.log(`Server is running on ${port}`);
