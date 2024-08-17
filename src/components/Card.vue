@@ -16,4 +16,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+  .card{
+    width: 15rem;
+    background: radial-gradient(rgb(117, 174, 107), rgb(75, 122, 75) 80%);
+    border: 0.5rem inset black;
+    box-shadow: inset 0 0 1rem black;
+  }
+</style>
+MDN Reference
+
