@@ -8,6 +8,11 @@ const app = express()
 const port = +process.env.PORT || 4000
 
 //MIDDLEWARE
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    next()
+}) //always use next otherwise it freezes
+
 app.use('/user', userRouter)
 app.use('/products',productRouter)
 app.use( express.static('./static'), express.json(), express.urlencoded({
