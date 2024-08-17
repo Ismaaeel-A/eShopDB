@@ -12,9 +12,7 @@
 
 <script>
 export default {
-    components: {
-        name: "CardComp"
-    }
+    name: "CardComp"
 };
 </script>
 
