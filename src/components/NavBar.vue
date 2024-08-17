@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-expand-lg sticky-top">
       <div class="container-fluid">
-        <router-link class="navbar-brand" to="/"><h2 logo>Ismaa'eel</h2><img src="https://achar1f.github.io/projectimages/images/Logo.jpg" alt="lol"></router-link>
+        <router-link class="navbar-brand" to="/"><img src="https://achar1f.github.io/projectimages/images/Logo.jpg" alt="lol" logo></router-link>
         <button
           class="navbar-toggler"
           type="button"
