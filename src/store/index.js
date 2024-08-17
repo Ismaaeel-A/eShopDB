@@ -13,7 +13,7 @@ import {
   useCookies
 } from 'vue3-cookies' */
 
-const apiURL = 'http://localhost:3001/'
+const apiURL = 'https://eshopdb-90jy.onrender.com/'
 
 
 export default createStore({
