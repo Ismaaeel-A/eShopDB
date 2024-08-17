@@ -13,7 +13,7 @@ import {
   useCookies
 } from 'vue3-cookies' */
 
-const apiURL = 'https://eshopdb-90jy.onrender.com/'
+const apiURL = 'https://eshopdb-90jy.onrender.com'
 
 
 export default createStore({
@@ -52,7 +52,7 @@ export default createStore({
   actions: {
     async fetchRecentProducts(context) {
       try {
-        const { results, msg } = await (await axios.get(`${apiURL}products/recent`)).data
+        const { results, msg } = await (await axios.get(`${apiURL}/products/recent`)).data
         if (results) {
           context.commit('setRecentProducts', results)
         } else {
